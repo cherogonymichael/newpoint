@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import django_heroku
+import dj_database_url
+from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'hospitalmanagement.urls'
@@ -128,7 +131,7 @@ STATICFILES_DIRS=[STATIC_DIR,]
 MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 
 
-
+STATICFILES_STORAGE= 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 LOGIN_REDIRECT_URL='/afterlogin'
 
 #for contact us give your gmail id and password
@@ -137,10 +140,12 @@ EMAIL_HOST = 'cherogonymichael@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'cherogonymichael@gmail.com' # this email will be used to send emails
-EMAIL_HOST_PASSWORD = '35559696' # host email password required
+EMAIL_HOST_PASSWORD = '' # host email password required
 # now sign in with your host gmail account in your browser
 # open following link and turn it ON
 # https://myaccount.google.com/lesssecureapps
 # otherwise you will get SMTPAuthenticationError at /contactus
 # this process is required because google blocks apps authentication by default
 EMAIL_RECEIVING_USER = ['cherogonylitei@gmail.com'] # email on which you will receive messages sent from website
+
+django_heroku.settings(locals())
